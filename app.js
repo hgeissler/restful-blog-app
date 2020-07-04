@@ -28,12 +28,18 @@ const Blog = mongoose.model("Blog", blogSchema);
 
 // routes
 app.get("/", function (req, res) {
-  res.send("Welcome");
+  res.redirect("/blogs");
 });
 
 // index
 app.get("/blogs", function (req, res) {
-  res.render("index");
+  Blog.find({}, function (err, blogs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("index", { blogs: blogs });
+    }
+  });
 });
 
 app.listen(3000, function (err) {
