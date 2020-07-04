@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/restful_blog_app");
 
 let app = express();
-app.use("view engine", "ejs");
+app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
