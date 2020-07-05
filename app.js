@@ -19,8 +19,8 @@ const blogSchema = new mongoose.Schema({
   image: String,
   body: String,
   created: {
-    type: String,
-    default: Date.now,
+    type: Date,
+    default: new Date(),
   },
 });
 
@@ -69,6 +69,11 @@ app.get("/blogs/:id", function (req, res) {
       res.render("show", { blog: foundBlog });
     }
   });
+});
+
+// edit
+app.get("/blogs/:id/edit", function (req, res) {
+  res.render("edit");
 });
 
 app.listen(3000, function (err) {
