@@ -48,7 +48,7 @@ app.get("/blogs/new", function (req, res) {
 });
 
 // create
-app.post("blogs", function (req, res) {
+app.post("/blogs", function (req, res) {
   const blog = req.body.blog;
   Blog.create(blog, function (err, blog) {
     if (err) {
@@ -56,6 +56,17 @@ app.post("blogs", function (req, res) {
       res.render("blogs/new");
     } else {
       res.redirect("/blogs");
+    }
+  });
+});
+
+// show
+app.get("/blogs/:id", function (req, res) {
+  Blog.findById(req.params.id, function (err, foundBlog) {
+    if (err) {
+      res.redirect("/blogs");
+    } else {
+      res.render("show", { blog: foundBlog });
     }
   });
 });
