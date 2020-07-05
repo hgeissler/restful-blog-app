@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+<div class="ui main text container segment">
+  <div class="ui huge header">New Blog</div>
+  <!-- html forms cannot make put request... only get and post -->
+  <form
+    action="/blogs/<%= blog._id %>?_method=PUT"
+    method="post"
+    class="ui form"
+  >
+    <div class="field">
+      <label for="">Title</label>
+      <input
+        type="text"
+        name="blog[title]"
+        placeholder="title"
+        value="<%= blog.title %>"
+      />
+    </div>
+    <div class="field">
+      <label for="">Image</label>
+      <input
+        type="text"
+        name="blog[image]"
+        placeholder="image"
+        value="<%= blog.image %>"
+      />
+    </div>
+    <div class="field">
+      <label for="">Blog content</label>
+      <!-- prettier-ignore -->
+      <textarea name="blog[body]" cols="30" rows="10" required><%= blog.body %> </textarea>
+    </div>
+    <input type="submit" value="Submit" class="ui inverted button violet" />
+  </form>
+</div>
+<%- include('partials/footer') %>
