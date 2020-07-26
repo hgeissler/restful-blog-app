@@ -9,6 +9,8 @@ let app = express();
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+// bräuchte man, wenn man json sendet... z.B. über eine API
+app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 app.use(expressSanitizer());
 
@@ -16,6 +18,12 @@ app.use(expressSanitizer());
 mongoose.connect("mongodb://localhost/restful_blog_app", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("connected to mongodb");
 });
 
 const blogSchema = new mongoose.Schema({
@@ -90,10 +98,7 @@ app.get("/blogs/:id/edit", function (req, res) {
 // update
 app.put("/blogs/:id", function (req, res) {
   req.body.blog.body = req.sanitize(req.body.blog.body);
-  Blog.findByIdAndUpdate(req.params.id, req.body.blog, function (
-    err,
-    updatedBlog
-  ) {
+  Blog.findByIdAndUpdate(req.params.id, req.body.blog, function (err) {
     if (err) {
       console.log(err);
       res.redirect("/blogs");
